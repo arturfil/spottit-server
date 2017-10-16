@@ -5,7 +5,7 @@ const userSchema = new Schema(
   {
     fullName: {
       type: String,
-      required: [true: "Please give us your name"]
+      required: [true, "Please give us your name"]
     },
     username: {
       type: String,
@@ -13,7 +13,7 @@ const userSchema = new Schema(
     },
     encryptedPassword: {
       type: String,
-      required: [true: "Password is required"]
+      required: [true, "Password is required"]
     }
   },
     {

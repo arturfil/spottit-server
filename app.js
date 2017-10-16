@@ -8,7 +8,7 @@ const layouts      = require('express-ejs-layouts');
 const mongoose     = require('mongoose');
 const cors         = require('cors');
 const passport     = require('passport');
-const session      = require('passport-session');
+const session      = require('express-session');
 
 require('dotenv').config();
 

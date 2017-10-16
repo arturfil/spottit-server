@@ -76,7 +76,7 @@ router.post('/process-login', (req, res, next) => {
       }
       // clear out the password, we don't want to send it
       theUser.encryptedPassword = undefined;
-      res.status.(200).json(theUser);
+      res.status(200).json(theUser);
     });
   });
   customAutCallback(req, res, next);
