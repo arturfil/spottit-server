@@ -69,7 +69,7 @@ router.post('/process-login', (req, res, next) => {
       res.status(401).json({ errorMessage: extraInfo.message });
       return;
     }
-    req.login(theUser, (error) => {
+    req.login(theUser, (err) => {
       if(err) {
         res.status(500).json({errorMessage: "Login failed "});
         return;
@@ -83,7 +83,7 @@ router.post('/process-login', (req, res, next) => {
 });
 
 //delete router for the logout
-router.delete('logout', (req, res, next) => {
+router.delete('/logout', (req, res, next) => {
   req.logout();
   res.status(200).json({ successMessage: "Logout succes!"});
 });
