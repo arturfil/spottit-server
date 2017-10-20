@@ -1,15 +1,8 @@
 const express   = require('express');
-const multer    = require('multer');
-const SpotModel = require('../models/spot-modle');
+const m = require('../config/multer-config');
+const SpotModel = require('../models/spot-model');
 
 const router = express.Router();
-
-const myUploader =
-multer(
-  {
-    dest: __dirname + '/../public/uploads'
-  }
-);
 
 // GET/api/items
 router.get('/spots', (req, res, next) => {
@@ -27,7 +20,7 @@ router.get('/spots', (req, res, next) => {
 });
 
 // POST/api/spots
-router.post('/spots', myUploader.single('itemImage') (req, res, next) => {
+router.post('/spots', m.uploader.single('itemImage') (req, res, next) => {
   if(!req.user) {
     res.status(401).json({ errorMessage: 'Not logged in'});
     return;
@@ -40,7 +33,7 @@ router.post('/spots', myUploader.single('itemImage') (req, res, next) => {
     user: req.user._id
   })
   if(req.file) {
-    theSpot.image = '/uploads/' + req.file.filename;
+    theSpot.image = m.getUrl(req);
   }
   theSpot.save((err) => {
     if (theItem.errors) {
