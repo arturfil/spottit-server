@@ -14,7 +14,7 @@ require('dotenv').config();
 
 require('./config/passport-config');
 
-mongoose.connect('mongodb://localhost/spottit-server');
+mongoose.connect(process.env.MONGODB_URI);
 
 const app = express();
 
