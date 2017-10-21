@@ -27,9 +27,9 @@ router.post('/spots', m.uploader.single('itemImage') (req, res, next) => {
   }
 
   const theSpot = new SpotModel({
-    name: req.body.itemName,
-    brand: req.body.itemBrand,
-    value: req.body.itemValue,
+    name: req.body.spotName,
+    workout: req.body.spotWorkout,
+    address: req.body.spotAddress,
     user: req.user._id
   })
   if(req.file) {
@@ -78,10 +78,10 @@ router.put('/spots/:spotsId', (req, res, next) => {
         return;
       }
       spotsFromDb.set({
-        name: req.body.itemName,
-        brand: req.body.itemBrand,
-        image: req.body.itemImage,
-        value: req.body.value
+        name: req.body.spotName,
+        workout: req.body.spotWorkout,
+        image: req.body.spotImage,
+        address: req.body.spotAddress
       });
 
       spotsFromDb.save((err) => {

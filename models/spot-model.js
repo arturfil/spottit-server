@@ -9,6 +9,7 @@ const spotSchema = new Schema({
   workout: {
     type: String, enum: ['Cardio', 'Resistance', 'Cardion & Resistance']
   },
+  address: {type: String},
   latitud: {type: Number},
   longitud: {type: Number},
   rating: {type: Number},
