@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Schema   = mongoose.Schema();
+const Schema   = mongoose.Schema;
 
 const spotSchema = new Schema({
   name: {
@@ -16,6 +16,6 @@ const spotSchema = new Schema({
   image: {type: String}
 })
 
-const SpotSchema = mongoose.model('Spot', spotSchema);
+const SpotsModel = mongoose.model('Spot', spotSchema);
 
-module.exports = SpotSchema;
+module.exports = SpotsModel;

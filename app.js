@@ -53,6 +53,9 @@ app.use('/', index);
 const myAuthRoutes = require('./routes/auth-api-router');
 app.use('/api', myAuthRoutes);
 
+const mySpotRouter = require('./routes/spot-api-router');
+app.use('/api', mySpotRouter);
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');

@@ -1,18 +1,18 @@
 const express   = require('express');
 const m = require('../config/multer-config');
-const SpotModel = require('../models/spot-model');
+const SpotsModel = require('../models/spot-model');
 
 const router = express.Router();
 
-// GET/api/items
+// GET/api/spots
 router.get('/spots', (req, res, next) => {
   SpotModel.find()
     .limit(20)
     .sort({_id: -1})
     .exec((err, recentSpots) => {
       if (err) {
-        console.log('Error finding the items', err);
-        res.status(500).json({errorMessage: 'Finding items went wrong 💩'});
+        console.log('Error finding the spots', err);
+        res.status(500).json({errorMessage: 'Finding spots went wrong 💩'});
         return;
       }
       res.status(200).json(recentSpots)
@@ -20,7 +20,7 @@ router.get('/spots', (req, res, next) => {
 });
 
 // POST/api/spots
-router.post('/spots', m.uploader.single('itemImage') (req, res, next) => {
+router.post('/spots', m.uploader.single('spotsImage'), (req, res, next) => {
   if(!req.user) {
     res.status(401).json({ errorMessage: 'Not logged in'});
     return;
@@ -36,7 +36,7 @@ router.post('/spots', m.uploader.single('itemImage') (req, res, next) => {
     theSpot.image = m.getUrl(req);
   }
   theSpot.save((err) => {
-    if (theItem.errors) {
+    if (theSpot.errors) {
       res.status(400).json({
         errorMessage: 'Validation failed 😂',
         validationErrors: theSpot.errors
@@ -44,7 +44,7 @@ router.post('/spots', m.uploader.single('itemImage') (req, res, next) => {
       return;
     }
     if(err) {
-      console.log('Error Posting item', err);
+      console.log('Error Posting spot', err);
       res.status(500).json({errorMessage: 'New phone went wrong 💩'});
       return;
     }
@@ -55,11 +55,11 @@ router.post('/spots', m.uploader.single('itemImage') (req, res, next) => {
 // GET/api/spots/ID
 router.get('/spots/:spotsId', (req, res, next) => {
   SpotsModel.findById(
-    req.params.itemId,
+    req.params.spotsId,
     (err, spotsFromDb) => {
       if (err) {
         console.log("Spot details error");
-        res.status(500).json({errorMessage: 'Item details went wrong ☠️'});
+        res.status(500).json({errorMessage: 'Spot details went wrong ☠️'});
         return;
       }
       res.status(200).json(spotsFromDb);
@@ -67,14 +67,14 @@ router.get('/spots/:spotsId', (req, res, next) => {
   )
 });
 
-//PUT/api/items/ID
+//PUT/api/spots/ID
 router.put('/spots/:spotsId', (req, res, next) => {
   SpotsModel.findById(
     req.params.spotsId,
     (err, spotsFromDb) => {
       if(err) {
         console.log('Spot details ERROR', err);
-        res.status(500).json({errorMessage: "Item details went wrong"});
+        res.status(500).json({errorMessage: "Spot details went wrong"});
         return;
       }
       spotsFromDb.set({
@@ -93,8 +93,8 @@ router.put('/spots/:spotsId', (req, res, next) => {
           return;
         }
         if (err) {
-          console.log("Item update ERROR", err);
-          res.status(500).json({ errorMessage: 'Item update went wrong'});
+          console.log("Spot update ERROR", err);
+          res.status(500).json({ errorMessage: 'Spot update went wrong'});
           return;
         }
         res.status(200).json(spotsFromDb);
@@ -110,10 +110,10 @@ router.delete('/spots/:spotsId', (req, res, next) => {
     return;
   }
   SpotsModel.findById(
-    req.params.itemId,
+    req.params.spotsId,
     (err, spotsFromDb) => {
       if (err) {
-        console.log('Item owner confirm ERROR', err);
+        console.log('Spot\'s owner confirm ERROR', err);
         res.status(500).json(
           {errorMessage: "Spot owner confirm went wrong 🥑"}
         );
@@ -124,7 +124,7 @@ router.delete('/spots/:spotsId', (req, res, next) => {
         return;
       }
       SpotsModel.findByIdAndRemove(
-        req.params.itemId,
+        req.params.spotsId,
         (err, spotsFromDb) => {
           if (err) {
             console.log("Spots delete error", err);
@@ -145,14 +145,14 @@ router.get('/myspots', (req, res, next) => {
   }
   SpotsModel.find({user: req.user._id})
   .sort({_id: -1})
-  .exec((err, myItemResults) => {
+  .exec((err, mySpotsResults) => {
     if (err) {
       res.status(500).json(
         {errorMessage: 'My spots went wrong'}
       );
       return;
     }
-    res.status(200).json(myItemResults);
+    res.status(200).json(mySpotsResults);
   });
 });
 
