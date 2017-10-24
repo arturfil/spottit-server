@@ -1,6 +1,6 @@
 const express   = require('express');
 const m = require('../config/multer-config');
-const SpotsModel = require('../models/spot-model');
+const SpotModel = require('../models/spot-model');
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.get('/spots', (req, res, next) => {
 });
 
 // POST/api/spots
-router.post('/spots', m.uploader.single('spotsImage'), (req, res, next) => {
+router.post('/spots', m.uploader.single('spotImage'), (req, res, next) => {
   if(!req.user) {
     res.status(401).json({ errorMessage: 'Not logged in'});
     return;
@@ -45,7 +45,7 @@ router.post('/spots', m.uploader.single('spotsImage'), (req, res, next) => {
     }
     if(err) {
       console.log('Error Posting spot', err);
-      res.status(500).json({errorMessage: 'New phone went wrong 💩'});
+      res.status(500).json({errorMessage: 'New spot went wrong 💩'});
       return;
     }
     res.status(200).json(theSpot);
@@ -54,7 +54,7 @@ router.post('/spots', m.uploader.single('spotsImage'), (req, res, next) => {
 
 // GET/api/spots/ID
 router.get('/spots/:spotsId', (req, res, next) => {
-  SpotsModel.findById(
+  SpotModel.findById(
     req.params.spotsId,
     (err, spotsFromDb) => {
       if (err) {
@@ -69,7 +69,7 @@ router.get('/spots/:spotsId', (req, res, next) => {
 
 //PUT/api/spots/ID
 router.put('/spots/:spotsId', (req, res, next) => {
-  SpotsModel.findById(
+  SpotModel.findById(
     req.params.spotsId,
     (err, spotsFromDb) => {
       if(err) {
@@ -109,7 +109,7 @@ router.delete('/spots/:spotsId', (req, res, next) => {
     res.status(401).json({errorMessage: 'Not logged in'});
     return;
   }
-  SpotsModel.findById(
+  SpotModel.findById(
     req.params.spotsId,
     (err, spotsFromDb) => {
       if (err) {
@@ -123,7 +123,7 @@ router.delete('/spots/:spotsId', (req, res, next) => {
         res.status(403).json({ errorMessage: 'This spot is not yours. 😎'});
         return;
       }
-      SpotsModel.findByIdAndRemove(
+      SpotModel.findByIdAndRemove(
         req.params.spotsId,
         (err, spotsFromDb) => {
           if (err) {
@@ -143,7 +143,7 @@ router.get('/myspots', (req, res, next) => {
     res.status(401).json({errorMessage: "Not logged in 💀"});
     return;
   }
-  SpotsModel.find({user: req.user._id})
+  SpotModel.find({user: req.user._id})
   .sort({_id: -1})
   .exec((err, mySpotsResults) => {
     if (err) {

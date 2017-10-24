@@ -13,9 +13,12 @@ const spotSchema = new Schema({
   latitud: {type: Number},
   longitud: {type: Number},
   rating: {type: Number},
-  image: {type: String}
+  image: {
+    type: String,
+    required: [true, "Please provide an Image for the Spot"]
+  }
 })
 
-const SpotsModel = mongoose.model('Spot', spotSchema);
+const SpotModel = mongoose.model('Spot', spotSchema);
 
-module.exports = SpotsModel;
+module.exports = SpotModel;
