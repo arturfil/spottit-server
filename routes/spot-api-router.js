@@ -111,7 +111,7 @@ router.delete('/spots/:spotsId', (req, res, next) => {
   }
   SpotModel.findById(
     req.params.spotsId,
-    (err, spotsFromDb) => {
+    (err, spotFromDb) => {
       if (err) {
         console.log('Spot\'s owner confirm ERROR', err);
         res.status(500).json(
@@ -119,18 +119,18 @@ router.delete('/spots/:spotsId', (req, res, next) => {
         );
         return;
       }
-      if (spotsFromDb.user.toString() !== req.user._id.toString()) {
+      if (spotFromDb.user.toString() !== req.user._id.toString()) {
         res.status(403).json({ errorMessage: 'This spot is not yours. 😎'});
         return;
       }
       SpotModel.findByIdAndRemove(
         req.params.spotsId,
-        (err, spotsFromDb) => {
+        (err, spotFromDb) => {
           if (err) {
             console.log("Spots delete error", err);
             res.status(500).json({ errorMessage: "Spot delete went wrong"});
           }
-          res.status(200).json(spotsFromDb);
+          res.status(200).json(spotFromDb);
         }
       );
     }

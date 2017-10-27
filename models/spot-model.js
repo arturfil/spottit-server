@@ -16,6 +16,11 @@ const spotSchema = new Schema({
   image: {
     type: String,
     required: [true, "Please provide an Image for the Spot"]
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true 
   }
 })
 
