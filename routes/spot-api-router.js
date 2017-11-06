@@ -1,5 +1,4 @@
 const express   = require('express');
-const m = require('../config/multer-config');
 const SpotModel = require('../models/spot-model');
 
 const router = express.Router();
@@ -20,7 +19,7 @@ router.get('/spots', (req, res, next) => {
 });
 
 // POST/api/spots
-router.post('/spots', m.uploader.single('spotImage'), (req, res, next) => {
+router.post('/spots', (req, res, next) => {
   if(!req.user) {
     res.status(401).json({ errorMessage: 'Not logged in'});
     return;
@@ -30,25 +29,25 @@ router.post('/spots', m.uploader.single('spotImage'), (req, res, next) => {
     name: req.body.spotName,
     workout: req.body.spotWorkout,
     address: req.body.spotAddress,
-    user: req.user._id
-  })
-  if(req.file) {
-    theSpot.image = m.getUrl(req);
-  }
+    image: req.body.spotImage,
+    user: req.user_id
+  });
+
   theSpot.save((err) => {
     if (theSpot.errors) {
       res.status(400).json({
-        errorMessage: 'Validation failed 😂',
+        errorMessage: 'Validtion failed 💀',
         validationErrors: theSpot.errors
       });
       return;
     }
-    if(err) {
+
+    if (err) {
       console.log('Error Posting spot', err);
-      res.status(500).json({errorMessage: 'New spot went wrong 💩'});
+      res.status(500).json({errorMessage: 'New Spot went wrong'});
       return;
     }
-    res.status(200).json(theSpot);
+    res.status(200).json(theSpot)
   })
 });
 
