@@ -30,7 +30,7 @@ router.post('/spots', (req, res, next) => {
     workout: req.body.spotWorkout,
     address: req.body.spotAddress,
     image: req.body.spotImage,
-    user: req.user_id
+    user: req.user._id
   });
 
   theSpot.save((err) => {
